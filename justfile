@@ -2,6 +2,9 @@
 
 set dotenv-load := true
 
+default :
+  @just --list
+
 run-collector :
   ./scripts/run_standalone_collector.sh
 
