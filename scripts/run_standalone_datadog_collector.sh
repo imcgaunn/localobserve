@@ -31,9 +31,10 @@ function start_collector() {
     docker create -i -t \
         --name=${OTEL_COLLECTOR_CONTAINER_NAME} \
         -p 44317:${OTEL_COLLECTOR_GRPC_PORT} \
+        -e "DD_API_KEY=$DD_API_KEY" \
         --network observe \
         --mount type=bind,src=/etc/localtime,dst=/etc/localtime,ro \
-        --mount type=bind,src=${CONFIG_DIR}/otelcol.yaml,dst=/etc/otelcol-contrib/config.yaml \
+        --mount type=bind,src=${CONFIG_DIR}/otelcoldatadog.yaml,dst=/etc/otelcol-contrib/config.yaml \
         --tmpfs=/tmp:rw,noexec,nosuid,size=128m \
         docker.io/otel/opentelemetry-collector-contrib:0.95.0 || die "could not create container"
     printf "started container [name=%s]\n" "${OTEL_COLLECTOR_CONTAINER_NAME}"

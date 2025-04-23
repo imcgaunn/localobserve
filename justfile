@@ -8,6 +8,9 @@ default :
 run-collector :
   ./scripts/run_standalone_collector.sh
 
+run-dd-collector :
+  DD_API_KEY=$DD_API_KEY ./scripts/run_standalone_datadog_collector.sh
+
 run-observe-backend :
   ./scripts/run_standalone_observe_backend.sh
 
