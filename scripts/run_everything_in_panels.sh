@@ -13,7 +13,7 @@ function die() {
 }
 
 function cleanup() {
-    for window_addr in "1.1" "1.2"; do
+    for window_addr in "1.1" "1.2" "1.3"; do
         printf "sending ctrlc to window_addr: %s\n" "${window_addr}"
         tmux send-keys -t ${SESS_NAME}:${window_addr} C-c
     done
@@ -35,6 +35,11 @@ tmux send-keys -t ${SESS_NAME}:1.1 'just run-observe-backend' C-m
 # split first pane horizontally
 tmux split-window -t ${SESS_NAME}:1.1 -h
 # start otelcol in new pane we just created
-tmux send-keys -t ${SESS_NAME}:1.2 'just run-collector' C-m
+tmux send-keys -t ${SESS_NAME}:1.2 'just run-dd-collector' C-m
+
+# split new pane we just created vertically
+tmux split-window -t ${SESS_NAME}:1.2 -v
+# run vector in the new split
+tmux send-keys -t ${SESS_NAME}:1.3 'just run-vector' C-m
 
 read "REPLY?program running in other window waiting"
