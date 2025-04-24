@@ -13,6 +13,7 @@ sources:
     read_from: beginning
 
 #  used to add tags to log
+#  TODO: figure out how to merge in span fields into final event
 transforms:
   dd_transform:
     type: remap
@@ -21,14 +22,26 @@ transforms:
     source: |-
       .ddtags = "env:$DD_ENV,version:$DD_VERSION"
       .service = "$DD_SERVICE"
+      message_attrs, err = parse_json(.message)
+      log(message_attrs)
+      if err == null {
+        .message = message_attrs.event
+        .span_id = message_attrs.span.span_id
+        .trace_id = message_attrs.span.trace_id
+        .parent_span_id = message_attrs.span.parent_span_id
+        log(., level: "info")
+      } else {
+        log(err, level: "error")
+      }
 
 sinks:
   out:
     inputs:
-      - "in"
+      - "dd_transform"
     type: "console"
     encoding:
-      codec: "text"
+      codec: "json"
+
   # test DD sink
   #sink_dd:
   #  type: datadog_logs
@@ -37,19 +50,20 @@ sinks:
   #  compression: gzip
   #  site: us3.datadoghq.com
   #  default_api_key: "$DD_API_KEY"
-  openobserve:
-    type: "http"
-    inputs:
-      - "dd_transform"
-    uri: "http://local-openobserve:5080/api/default/default/_json"
-    method: "post"
-    auth:
-      strategy: "basic"
-      user: "root@example.com"
-      password: "w5pIInolPjFVa7y9"
-    compression: "gzip"
-    encoding:
-      codec: "json"
-      timestamp_format: "rfc3339"
-    healthcheck:
-      enabled: false
+
+  #openobserve:
+  #  type: "http"
+  #  inputs:
+  #    - "dd_transform"
+  #  uri: "http://local-openobserve:5080/api/default/default/_json"
+  #  method: "post"
+  #  auth:
+  #    strategy: "basic"
+  #    user: "root@example.com"
+  #    password: "w5pIInolPjFVa7y9"
+  #  compression: "gzip"
+  #  encoding:
+  #    codec: "text"
+  #    timestamp_format: "rfc3339"
+  #  healthcheck:
+  #    enabled: false
