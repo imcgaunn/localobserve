@@ -4,10 +4,10 @@ setopt err_exit
 setopt no_unset
 setopt pipe_fail
 
-declare -g CONFIG_DIR="${0:A:h}/cfg"
-declare -g LOCAL_BIN_DIR="$HOME/.local/bin"
-declare -g LOCAL_ZINC_DATA_PATH="${0:A:h}/data"
-declare -g OPENOBSERVE_CONTAINER_NAME="local-openobserve"
+export SCRIPT_DIR="${0:A:h}"
+export CONFIG_DIR="${SCRIPT_DIR}/cfg"
+export LOCAL_ZINC_DATA_PATH="${SCRIPT_DIR}/../data/openobserve"
+export OPENOBSERVE_CONTAINER_NAME="local-openobserve"
 
 function die() {
     local msg="$1"

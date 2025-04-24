@@ -37,3 +37,19 @@ sinks:
   #  compression: gzip
   #  site: us3.datadoghq.com
   #  default_api_key: "$DD_API_KEY"
+  openobserve:
+    type: "http"
+    inputs:
+      - "dd_transform"
+    uri: "http://local-openobserve:5080/api/default/default/_json"
+    method: "post"
+    auth:
+      strategy: "basic"
+      user: "root@example.com"
+      password: "w5pIInolPjFVa7y9"
+    compression: "gzip"
+    encoding:
+      codec: "json"
+      timestamp_format: "rfc3339"
+    healthcheck:
+      enabled: false
