@@ -54,17 +54,25 @@ exporters:
     api:
       site: us3.datadoghq.com
       key: ${env:DD_API_KEY}
+  otlp/openobserve:
+    endpoint: local-openobserve:5081
+    headers:
+      Authorization: "Basic cm9vdEBleGFtcGxlLmNvbTp3NXBJSW5vbFBqRlZhN3k5"
+      organization: default
+      stream-name: default
+    tls:
+      insecure: true
 
 service:
   pipelines:
     metrics:
       receivers: [otlp, datadog/connector]
       processors: [batch]
-      exporters: [debug, datadog/exporter]
+      exporters: [debug, otlp/openobserve, datadog/exporter]
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, datadog/connector, datadog/exporter]
+      exporters: [debug, otlp/openobserve, datadog/connector, datadog/exporter]
     logs:
       receivers: [otlp]
       processors: [batch]
