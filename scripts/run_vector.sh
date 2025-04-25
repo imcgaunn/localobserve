@@ -10,13 +10,13 @@ export VECTOR_DATA_DIR="${SCRIPT_DIR}/../data/vector"
 export LOG_DATA_DIR="${SCRIPT_DIR}/../data/logs"
 
 export DD_API_KEY="$DD_API_KEY"
-export DD_ENV="dev"
+export DD_ENV="$DD_ENV"
 export DD_SERVICE="imcg-thruput-vector"
 export DD_VERSION="0.9.0-imcg"
 
 export VECTOR_CONTAINER_NAME="localobserve-vector"
 export VECTOR_IMAGE_NAME="timberio/vector"
-export VECTOR_IMAGE_TAG="0.37.1-debian"
+export VECTOR_IMAGE_TAG="0.46.1-debian"
 export DOCKER_NETWORK="observe"
 
 function cleanup() {
