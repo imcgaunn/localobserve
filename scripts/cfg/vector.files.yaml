@@ -28,6 +28,8 @@ transforms:
         .span_id = message_attrs.span.span_id
         .trace_id = message_attrs.span.trace_id
         .parent_span_id = message_attrs.span.parent_span_id
+        .dd.trace_id = message_attrs.span.trace_id
+        .dd.span_id = message_attrs.span.span_id
       } else {
         log(err, level: "error")
       }

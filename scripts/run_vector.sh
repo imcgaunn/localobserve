@@ -11,8 +11,8 @@ export LOG_DATA_DIR="${LOG_DATA_DIR:-${SCRIPT_DIR}/../data/logs}"
 
 export DD_API_KEY="$DD_API_KEY"
 export DD_ENV="$DD_ENV"
-export DD_SERVICE="imcg-thruput-vector"
-export DD_VERSION="0.9.0-imcg"
+export DD_SERVICE="$DD_SERVICE"
+export DD_VERSION="$DD_VERSION"
 export OPENOBSERVE_AUTH_USER="$OPENOBSERVE_AUTH_USER"
 export OPENOBSERVE_AUTH_PASS="$OPENOBSERVE_AUTH_PASS"
 
