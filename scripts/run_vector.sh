@@ -49,7 +49,6 @@ function start_vector() {
         -e DD_ENV=${DD_ENV} \
         -e DD_SERVICE=${DD_SERVICE} \
         -e DD_VERSION=${DD_VERSION} \
-        -e DD_TAGS="poc-name:localobserve" \
         -e OPENOBSERVE_AUTH_USER=${OPENOBSERVE_AUTH_USER} \
         -e OPENOBSERVE_AUTH_PASS=${OPENOBSERVE_AUTH_PASS} \
         --mount type=bind,src=${CONFIG_DIR}/vector.files.yaml,dst=/etc/vector/vector.yaml \
