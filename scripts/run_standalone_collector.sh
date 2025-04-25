@@ -4,9 +4,9 @@ setopt err_exit
 setopt no_unset
 setopt pipe_fail
 
-declare -g CONFIG_DIR="${0:A:h}/cfg"
-declare -g OTEL_COLLECTOR_GRPC_PORT="${OTEL_COLLECTOR_GRPC_PORT:-4317}"
-declare -g OTEL_COLLECTOR_CONTAINER_NAME="${OTEL_COLLECTOR_CONTAINER_NAME:-local-otel-coll}"
+export CONFIG_DIR="${0:A:h}/cfg"
+export OTEL_COLLECTOR_GRPC_PORT="${OTEL_COLLECTOR_GRPC_PORT:-4317}"
+export OTEL_COLLECTOR_CONTAINER_NAME="${OTEL_COLLECTOR_CONTAINER_NAME:-local-otel-coll}"
 
 function die() {
     local msg="$1"
