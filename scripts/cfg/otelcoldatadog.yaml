@@ -57,7 +57,7 @@ exporters:
   otlp/openobserve:
     endpoint: local-openobserve:5081
     headers:
-      Authorization: "Basic cm9vdEBleGFtcGxlLmNvbTp3NXBJSW5vbFBqRlZhN3k5"
+      Authorization: "Basic cm9vdEBleGFtcGxlLmNvbTpQdTRiWVVod3prdUZSSUx1"
       organization: default
       stream-name: default
     tls:
@@ -73,7 +73,3 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [debug, otlp/openobserve, datadog/connector, datadog/exporter]
-    logs:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [debug, datadog/exporter]
