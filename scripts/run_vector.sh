@@ -49,7 +49,6 @@ function start_vector() {
         -e DD_VERSION=${DD_VERSION} \
         -e DD_TAGS="poc-name:localobserve" \
         --mount type=bind,src=${CONFIG_DIR}/vector.files.yaml,dst=/etc/vector/vector.yaml \
-        --mount type=bind,src=${VECTOR_DATA_DIR},dst=/tmp/data \
         --mount type=bind,src=${VECTOR_DATA_DIR},dst=/var/lib/vector \
         --mount type=bind,src=${LOG_DATA_DIR},dst=/tmp/logs \
         ${VECTOR_IMAGE_NAME}:${VECTOR_IMAGE_TAG} || die "could not create container ${VECTOR_CONTAINER_NAME}"
