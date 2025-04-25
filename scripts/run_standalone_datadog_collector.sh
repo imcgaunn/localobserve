@@ -8,6 +8,8 @@ export CONFIG_DIR="${0:A:h}/cfg"
 export OTEL_COLLECTOR_GRPC_PORT="${OTEL_COLLECTOR_GRPC_PORT:-4317}"
 export OTEL_COLLECTOR_CONTAINER_NAME="${OTEL_COLLECTOR_CONTAINER_NAME:-local-otel-coll}"
 
+export OPENOBSERVE_AUTH_HEADER="${OPENOBSERVE_AUTH_HEADER}"
+
 function die() {
     local msg="$1"
     printf "%s\n" "${msg}" >&2
@@ -32,6 +34,7 @@ function start_collector() {
         --name=${OTEL_COLLECTOR_CONTAINER_NAME} \
         -p 44317:${OTEL_COLLECTOR_GRPC_PORT} \
         -e "DD_API_KEY=$DD_API_KEY" \
+        -e "OPENOBSERVE_AUTH_HEADER=$OPENOBSERVE_AUTH_HEADER" \
         --network observe \
         --mount type=bind,src=/etc/localtime,dst=/etc/localtime,ro \
         --mount type=bind,src=${CONFIG_DIR}/otelcoldatadog.yaml,dst=/etc/otelcol-contrib/config.yaml \

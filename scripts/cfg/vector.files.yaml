@@ -19,8 +19,9 @@ transforms:
     inputs:
       - in
     source: |-
-      .ddtags = "env:$DD_ENV,version:$DD_VERSION"
-      .service = "$DD_SERVICE"
+      .service.name = "$DD_SERVICE"
+      .service.version = "$DD_VERSION"
+      .deployment.environment = "$DD_ENV"
       message_attrs, err = parse_json(.message)
       log(message_attrs)
       if err == null {

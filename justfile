@@ -1,6 +1,7 @@
 #!/usr/bin/env just
 
 set dotenv-load := true
+set dotenv-filename := 'localobserve.env'
 
 default :
   @just --list
@@ -9,7 +10,7 @@ run-collector :
   ./scripts/run_standalone_collector.sh
 
 run-dd-collector :
-  DD_API_KEY=$DD_API_KEY ./scripts/run_standalone_datadog_collector.sh
+  ./scripts/run_standalone_datadog_collector.sh
 
 run-vector :
   ./scripts/run_vector.sh
