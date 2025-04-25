@@ -12,16 +12,13 @@ sources:
     max_read_bytes: 2048
     read_from: beginning
 
-#  used to add tags to log
+# add fields that various observability platforms like
 transforms:
   dd_transform:
     type: remap
     inputs:
       - in
     source: |-
-      .service.name = "$DD_SERVICE"
-      .service.version = "$DD_VERSION"
-      .deployment.environment = "$DD_ENV"
       message_attrs, err = parse_json(.message)
       log(message_attrs)
       if err == null {
@@ -31,6 +28,10 @@ transforms:
         .parent_span_id = message_attrs.span.parent_span_id
         .dd.trace_id = message_attrs.span.trace_id
         .dd.span_id = message_attrs.span.span_id
+        .deployment_environment = message_attrs.deployment_environment
+        .service_name = message_attrs.service_name
+        .service_version = message_attrs.service_version
+        .host_name = message_attrs.host_name
       } else {
         log(err, level: "error")
       }
