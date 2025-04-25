@@ -7,6 +7,7 @@ setopt pipe_fail
 export SCRIPT_DIR="${0:A:h}"
 export CONFIG_DIR="${SCRIPT_DIR}/cfg"
 export LOCAL_ZINC_DATA_PATH="${SCRIPT_DIR}/../data/openobserve"
+
 export OPENOBSERVE_CONTAINER_NAME="local-openobserve"
 export OPENOBSERVE_IMAGE_NAME="public.ecr.aws/zinclabs/openobserve"
 export OPENOBSERVE_IMAGE_TAG="v0.14.5"
@@ -35,8 +36,8 @@ function start_openobserve() {
         --tmpfs=/tmp:rw,noexec,nosuid,size=128m \
         -p 5080:5080 \
         --network observe \
-        -e ZO_ROOT_USER_EMAIL="root@example.com" \
-        -e ZO_ROOT_USER_PASSWORD="Complexpass#123" \
+        -e ZO_ROOT_USER_EMAIL="${OPENOBSERVE_AUTH_USER}" \
+        -e ZO_ROOT_USER_PASSWORD="${OPENOBSERVE_AUTH_PASS}" \
         ${OPENOBSERVE_IMAGE_NAME}:${OPENOBSERVE_IMAGE_TAG}
     printf "started openobserve container [name=%s]\n" "${OPENOBSERVE_CONTAINER_NAME}"
     # attach the container's in/out file descriptors
