@@ -7,12 +7,14 @@ setopt pipe_fail
 export SCRIPT_DIR="${0:A:h}"
 export CONFIG_DIR="${SCRIPT_DIR}/cfg"
 export VECTOR_DATA_DIR="${SCRIPT_DIR}/../data/vector"
-export LOG_DATA_DIR="${SCRIPT_DIR}/../data/logs"
+export LOG_DATA_DIR="${LOG_DATA_DIR:-${SCRIPT_DIR}/../data/logs}"
 
 export DD_API_KEY="$DD_API_KEY"
 export DD_ENV="$DD_ENV"
 export DD_SERVICE="imcg-thruput-vector"
 export DD_VERSION="0.9.0-imcg"
+export OPENOBSERVE_AUTH_USER="$OPENOBSERVE_AUTH_USER"
+export OPENOBSERVE_AUTH_PASS="$OPENOBSERVE_AUTH_PASS"
 
 export VECTOR_CONTAINER_NAME="localobserve-vector"
 export VECTOR_IMAGE_NAME="timberio/vector"
@@ -48,6 +50,8 @@ function start_vector() {
         -e DD_SERVICE=${DD_SERVICE} \
         -e DD_VERSION=${DD_VERSION} \
         -e DD_TAGS="poc-name:localobserve" \
+        -e OPENOBSERVE_AUTH_USER=${OPENOBSERVE_AUTH_USER} \
+        -e OPENOBSERVE_AUTH_PASS=${OPENOBSERVE_AUTH_PASS} \
         --mount type=bind,src=${CONFIG_DIR}/vector.files.yaml,dst=/etc/vector/vector.yaml \
         --mount type=bind,src=${VECTOR_DATA_DIR},dst=/var/lib/vector \
         --mount type=bind,src=${LOG_DATA_DIR},dst=/tmp/logs \
@@ -59,6 +63,8 @@ function start_vector() {
 function stop_vector() {
     force_stop_container "${VECTOR_CONTAINER_NAME}"
 }
+
+echo "reading from log dir: $LOG_DATA_DIR"
 
 trap 'cleanup' EXIT
 start_vector || die "could not start ${VECTOR_CONTAINER_NAME}"
