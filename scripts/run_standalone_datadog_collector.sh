@@ -8,6 +8,9 @@ export CONFIG_DIR="${0:A:h}/cfg"
 export OTEL_COLLECTOR_GRPC_PORT="${OTEL_COLLECTOR_GRPC_PORT:-4317}"
 export OTEL_COLLECTOR_CONTAINER_NAME="${OTEL_COLLECTOR_CONTAINER_NAME:-local-otel-coll}"
 
+export OTEL_COLLECTOR_IMAGE="ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib"
+export OTEL_COLLECTOR_IMAGE_TAG="0.124.0"
+
 export OPENOBSERVE_AUTH_HEADER="${OPENOBSERVE_AUTH_HEADER}"
 
 function die() {
@@ -39,7 +42,7 @@ function start_collector() {
         --mount type=bind,src=/etc/localtime,dst=/etc/localtime,ro \
         --mount type=bind,src=${CONFIG_DIR}/otelcoldatadog.yaml,dst=/etc/otelcol-contrib/config.yaml \
         --tmpfs=/tmp:rw,noexec,nosuid,size=128m \
-        docker.io/otel/opentelemetry-collector-contrib:0.95.0 || die "could not create container"
+        "${OTEL_COLLECTOR_IMAGE}:${OTEL_COLLECTOR_IMAGE_TAG}" || die "could not create container"
     printf "started container [name=%s]\n" "${OTEL_COLLECTOR_CONTAINER_NAME}"
     # attach the container's in/out file descriptors
     docker start -ia ${OTEL_COLLECTOR_CONTAINER_NAME}

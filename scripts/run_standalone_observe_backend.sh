@@ -38,7 +38,7 @@ function start_openobserve() {
         --network observe \
         -e ZO_ROOT_USER_EMAIL="${OPENOBSERVE_AUTH_USER}" \
         -e ZO_ROOT_USER_PASSWORD="${OPENOBSERVE_AUTH_PASS}" \
-        ${OPENOBSERVE_IMAGE_NAME}:${OPENOBSERVE_IMAGE_TAG}
+        ${OPENOBSERVE_IMAGE_NAME}:${OPENOBSERVE_IMAGE_TAG} || die "could not create container"
     printf "started openobserve container [name=%s]\n" "${OPENOBSERVE_CONTAINER_NAME}"
     # attach the container's in/out file descriptors
     docker start -ia ${OPENOBSERVE_CONTAINER_NAME}
