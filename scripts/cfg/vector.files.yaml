@@ -20,7 +20,6 @@ transforms:
       - in
     source: |-
       message_attrs, err = parse_json(.message)
-      log(message_attrs)
       if err == null {
         .message = message_attrs.event
         .span_id = message_attrs.span.span_id
